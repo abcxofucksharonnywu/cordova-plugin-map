@@ -17,11 +17,33 @@
  under the License.
  */
 
-#import <Foundation/Foundation.h>
-#import <Cordova/CDVPlugin.h>
 
-@interface CDVScan : CDVPlugin
-{}
-- (void)recognize:(CDVInvokedUrlCommand*)command;
+#import <Cordova/CDVViewController.h>
+#import "CDVMap.h"
+@interface CDVMap () {
+    CDVInvokedUrlCommand *_command;
+}
+@end
 
+@implementation CDVMap
+-(void)pluginInitialize{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMap:) name:@"map" object:nil];
+}
+
+-(void)handleMap:(NSNotification*)ns{
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ns.userInfo[@"content"]];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:_command.callbackId];
+}
+
+
+- (void)jumpMap:(CDVInvokedUrlCommand*)command
+{
+    _command = command;
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end
