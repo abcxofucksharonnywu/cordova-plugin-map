@@ -37,7 +37,7 @@ public class Map extends CordovaPlugin {
     }
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("recognize".equals(action)) {
+        if ("jumpAddress".equals(action)) {
             this.callbackContext = callbackContext;
             cordova.startActivityForResult(this, new Intent(cordova.getActivity(), MapActivity.class), REQ_CODE);
         } else {

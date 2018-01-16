@@ -37,10 +37,18 @@
 }
 
 
-- (void)jumpMap:(CDVInvokedUrlCommand*)command
+- (void)jumpAddress:(CDVInvokedUrlCommand*)command
 {
     _command = command;
 }
+
+
+- (void)selectAddress:(CDVInvokedUrlCommand*)command
+{
+    _command = command;
+}
+
+
 
 - (void) dealloc
 {

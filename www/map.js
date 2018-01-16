@@ -1,7 +1,10 @@
 var exec = require('cordova/exec');
-var scan = {
-	recognize:function(callback) {
-		exec(callback, callback, "scan", "recognize", []);
+var map = {
+	jumpAddress:function(callback) {
+		exec(callback, callback, "map", "jumpAddress", []);
+	},
+	selectAddress:function(callback) {
+		exec(callback, callback, "map", "selectAddress", []);
 	}
 };
-module.exports = scan;
+module.exports = map;
