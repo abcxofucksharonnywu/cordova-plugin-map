@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-map",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Cordova Map Plugin",
   "cordova": {
     "id": "cordova-plugin-map",
@@ -30,14 +30,5 @@
     "cordova-windows",
     "cordova-browser",
     "cordova-osx"
-  ],
-  "scripts": {
-    "test": "npm run jshint",
-    "jshint": "node node_modules/jshint/bin/jshint www && node node_modules/jshint/bin/jshint src && node node_modules/jshint/bin/jshint tests"
-  },
-  "author": "shadow",
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "jshint": "^2.6.0"
-  }
+  ]
 }
