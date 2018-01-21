@@ -21,8 +21,8 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-map"
-    version="1.0">
-    <name>Map</name>
+    version="0.1">
+    <name>WTF-Map</name>
     <description>Cordova Map Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,map</keywords>
