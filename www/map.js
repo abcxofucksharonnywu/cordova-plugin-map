@@ -1,10 +1,10 @@
 var exec = require('cordova/exec');
 var map = {
-	jumpAddress:function(callback) {
-		exec(callback, callback, "map", "jumpAddress", []);
+	jumpAddress:function(address,callback) {
+		exec(callback, callback, "map", "jumpAddress", [address]);
 	},
-	selectAddress:function(callback) {
-		exec(callback, callback, "map", "selectAddress", []);
+	selectAddress:function(address,callback) {
+		exec(callback, callback, "map", "selectAddress", [address]);
 	}
 };
 module.exports = map;

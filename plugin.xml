@@ -41,6 +41,8 @@
             </feature>
         </config-file>
         <source-file src="src/android/Map.java" target-dir="src/org/apache/cordova/map" />
+		<framework src="com.google.android.gms:play-services-maps:11.8.0" />
+		<framework src="com.google.android.gms:play-services-places:11.8.0" />
     </platform>
 
  
@@ -54,6 +56,27 @@
         
         <header-file src="src/ios/CDVMap.h" />
         <source-file src="src/ios/CDVMap.m" />
+		<resource-file src="src/ios/GoogleMaps.framework/Resources/GoogleMaps.bundle" />        
+		<resource-file src="src/ios/GooglePlacePicker.framework/Resources/GooglePlacePicker.bundle" />        
+		<resource-file src="src/ios/GooglePlaces.framework/Resources/GooglePlaces.bundle" />        
+    <framework custom="true" src="src/ios/GoogleMaps.framework" />
+		<framework custom="true" src="src/ios/GoogleMapsBase.framework" />
+		<framework custom="true" src="src/ios/GoogleMapsCore.framework" />
+		<framework custom="true" src="src/ios/GooglePlacePicker.framework" />
+		<framework custom="true" src="src/ios/GooglePlaces.framework" />
+    <framework src="Accelerate.framework" weak="true" />
+    <framework src="CoreData.framework" weak="true" />    
+    <framework src="CoreGraphics.framework" weak="true" />    
+    <framework src="CoreLocation.framework" weak="true" />    
+    <framework src="CoreText.framework" weak="true" />    
+    <framework src="GLKit.framework" weak="true" />    
+    <framework src="ImageIO.framework" weak="true" />                        
+    <framework src="libc++.tbd" weak="true" />                        
+    <framework src="libz.tbd" weak="true" />                        
+    <framework src="OpenGLES.framework" weak="true" />                                    
+    <framework src="QuartzCore.framework" weak="true" />                                    
+    <framework src="SystemConfiguration.framework" weak="true" />                                    
+    <framework src="UIKit.framework" weak="true" />                                                
     </platform>
 
 </plugin>

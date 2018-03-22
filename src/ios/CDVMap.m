@@ -20,38 +20,59 @@
 
 #import <Cordova/CDVViewController.h>
 #import "CDVMap.h"
+#import <GooglePlacePicker/GooglePlacePicker.h>
+#import <MapKit/MapKit.h>
 @interface CDVMap () {
-    CDVInvokedUrlCommand *_command;
+    GMSPlacePicker*placePicker;
 }
 @end
 
 @implementation CDVMap
--(void)pluginInitialize{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMap:) name:@"map" object:nil];
-}
-
--(void)handleMap:(NSNotification*)ns{
-    CDVPluginResult* pluginResult = nil;
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:ns.userInfo[@"content"]];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:_command.callbackId];
-}
-
 
 - (void)jumpAddress:(CDVInvokedUrlCommand*)command
 {
-    _command = command;
+    NSDictionary *mAddress = command.arguments.firstObject;
+    if(mAddress && ![mAddress isKindOfClass:[NSNull class]]){
+        CLLocationCoordinate2D center = CLLocationCoordinate2DMake([mAddress[@"lat"] doubleValue],[mAddress[@"long"] doubleValue]);
+        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:center addressDictionary:nil]];
+        toLocation.name = mAddress[@"title"];
+        [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
+                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault,
+                                       MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{}];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+    
 }
 
 
 - (void)selectAddress:(CDVInvokedUrlCommand*)command
 {
-    _command = command;
+    if(!placePicker){
+        GMSCoordinateBounds *viewport;
+        NSDictionary *mAddress = command.arguments.firstObject;
+        if(mAddress && ![mAddress isKindOfClass:[NSNull class]]){
+            CLLocationCoordinate2D center = CLLocationCoordinate2DMake([mAddress[@"lat"] doubleValue],[mAddress[@"long"] doubleValue]);
+            CLLocationCoordinate2D northEast = CLLocationCoordinate2DMake(center.latitude+0.001,
+                                                                          center.longitude+0.001);
+            CLLocationCoordinate2D southWest = CLLocationCoordinate2DMake(center.latitude-0.001 ,
+                                                                          center.longitude-0.001);
+            viewport = [[GMSCoordinateBounds alloc] initWithCoordinate:northEast
+                                                            coordinate:southWest];
+        }
+        GMSPlacePickerConfig *config = [[GMSPlacePickerConfig alloc] initWithViewport:viewport];
+        placePicker = [[GMSPlacePicker alloc] initWithConfig:config];
+    }
+    [placePicker pickPlaceWithCallback:^(GMSPlace *place, NSError *error) {
+        if (place && !error) {
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"title":place.name,@"content":place.formattedAddress,@"lat":@(place.coordinate.latitude),@"long":@(place.coordinate.longitude)}];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+    }];
 }
 
 
 
-- (void) dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+
 @end

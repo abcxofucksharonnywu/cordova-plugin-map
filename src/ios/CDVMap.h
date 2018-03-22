@@ -22,6 +22,6 @@
 
 @interface CDVMap : CDVPlugin
 {}
-- (void)jumpMap:(CDVInvokedUrlCommand*)command;
+- (void)jumpAddress:(CDVInvokedUrlCommand*)command;
 
 @end
